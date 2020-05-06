@@ -10,13 +10,13 @@ const Chart = () => {
     verb: "get",
   });
 
-  useEffect(() => {
-    makeRequest();
-  }, [urlConfirmed]);
+  //   useEffect(() => {
+  //     makeRequest();
+  //   }, [urlConfirmed]);
 
   return (
     <>
-      {console.log(loadingConfirmed)}
+      {/* {console.log(loadingConfirmed)} */}
       {loadingConfirmed && <h1>loading</h1>}
 
       {!loadingConfirmed && dataConfirmed && (

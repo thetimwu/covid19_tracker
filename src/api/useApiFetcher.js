@@ -29,7 +29,7 @@ const useApiFetcher = (url, { verb = "get", params = {} } = {}) => {
 
     try {
       const res = await axios[verb](url, params);
-      console.log(res.data);
+      //   console.log(res.data);
       if (res.status === 200) {
         dispatch({
           type: "API_REQUEST_SUCCESS",
