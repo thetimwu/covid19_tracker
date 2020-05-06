@@ -1,35 +1,37 @@
 import React, { useEffect } from "react";
-import useApiFetcher from "../../api/useApiFetcher";
+import { Line, Bar } from "react-chartjs-2";
+import styles from "./Chart.module.css";
 
-const Chart = () => {
-  const urlConfirmed = "https://covid19.mathdro.id/api/confirmed";
-  const [
-    { data: dataConfirmed, loading: loadingConfirmed, error: errorConfirmed },
-    makeRequest,
-  ] = useApiFetcher(urlConfirmed, {
-    verb: "get",
-  });
+const Chart = (props) => {
+  const modifiedData = props.data.map((item) => ({
+    confirmed: item.confirmed.total,
+    deaths: item.deaths.total,
+    date: item.reportDate,
+  }));
 
-  //   useEffect(() => {
-  //     makeRequest();
-  //   }, [urlConfirmed]);
-
-  return (
-    <>
-      {/* {console.log(loadingConfirmed)} */}
-      {loadingConfirmed && <h1>loading</h1>}
-
-      {!loadingConfirmed && dataConfirmed && (
-        <ul>
-          {dataConfirmed.map((data) => (
-            <li key={data.uid}>{data.deaths}</li>
-          ))}
-        </ul>
-      )}
-
-      {errorConfirmed && <h1>Error</h1>}
-    </>
+  const lineChart = (
+    <Line
+      data={{
+        labels: modifiedData.map(({ date }) => date),
+        datasets: [
+          {
+            data: modifiedData.map(({ confirmed }) => confirmed),
+            label: "Infected",
+            borderColor: "#333fff",
+            fill: true,
+          },
+          {
+            data: modifiedData.map(({ deaths }) => deaths),
+            label: "Deaths",
+            borderColor: "red",
+            backgroundColor: "rgba(255,0,0,0.5)",
+          },
+        ],
+      }}
+    />
   );
+
+  return <div className={styles.container}>{lineChart}</div>;
 };
 
 export default Chart;
